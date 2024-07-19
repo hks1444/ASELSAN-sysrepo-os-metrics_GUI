@@ -114,6 +114,21 @@ def get_rpc_request(request_name,time):
     }
     return rpc_requests.get(request_name, "Invalid request name")
 
+def first_24_lines(input_string):
+    # Split the input string into lines
+    lines = input_string.splitlines()
+    
+    if len(lines) <= 24:
+        return input_string
+    first_24 = lines[:24]
+    
+    # Join the first 24 lines back into a single string
+    result = "\n".join(first_24)
+    
+    return result
+
+
+
 def dashboard(request):
     global global_manager
     # Retrieve connection data from session
@@ -138,7 +153,12 @@ def dashboard(request):
                 rpc_req = get_rpc_request(selected_method,time_input)
                 #print(selected_method,time_input)
                 response = global_manager.dispatch(etree.fromstring(rpc_req))
-                print(response)
+                root = etree.fromstring(response.xml.encode())        
+                for elem in root:
+                    print(elem.text)
+                    response = "Operation successful. \n"
+                    if str(elem.text) != "None":
+                        response += str(first_24_lines(elem.text))
             else:
                 raise Exception("Invalid form data.")
         form = ConfigTypeForm(choices=config_methods)
