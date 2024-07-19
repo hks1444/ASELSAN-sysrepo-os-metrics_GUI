@@ -135,7 +135,7 @@ def dashboard(request):
     connection_data = request.session.get('netopeer_connection')
 
     if not connection_data:
-        return HttpResponse("Connection data not found in session.", status=400)
+        return render(request, 'dashboard.html', {'form': form,'error_message': "Connection data not found in session."})
 
     config_methods = [('get-ip', 'Get IP'), ('get-time', 'Get Time'), ('set-time', 'Set Time'), ('sync-time', 'Sync Time'), ('freeg', 'Free G'), ('uptime', 'Uptime'),('lscpu','Ls CPU'),('top','Top')]
     try:

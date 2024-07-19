@@ -1,6 +1,6 @@
 from django import forms
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit
+from crispy_forms.layout import Submit,Layout, Field
 from dotenv import load_dotenv
 import os
 
@@ -29,4 +29,6 @@ class ConfigTypeForm(forms.Form):
         choices = kwargs.pop('choices', [])
         super(ConfigTypeForm, self).__init__(*args, **kwargs)
         self.fields['method'].choices = choices
+        self.helper = FormHelper()
+        self.helper.add_input(Submit('submit', 'Submit', css_class='btn-primary'))
                 
